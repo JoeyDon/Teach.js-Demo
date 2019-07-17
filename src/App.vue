@@ -41,10 +41,9 @@
       <v-tab-item
         key="1"
       >
-        <WebControl/>
       </v-tab-item>
       <v-tab-item
-        key="2"
+        key="2"     
       >
         SSS
       </v-tab-item>
@@ -61,7 +60,7 @@ export default {
     WebControl
   },
   data: () => ({
-    tabs:null
+    tabs: null
   }),
 }
 </script>
