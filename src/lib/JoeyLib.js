@@ -3,14 +3,12 @@ import * as knnClassifier from '@tensorflow-models/knn-classifier';
 import * as tf from '@tensorflow/tfjs';
 
 export default class JoeyLib{
-    constructor(webcamElement, btnElement1, btnElement2){
-        this.btnElement1 = btnElement1;
-        this.btnElement2 = btnElement2;
-        
+    constructor(webcamElement){        
         this.webcamElement = document.getElementById(webcamElement);
         this.classifier = knnClassifier.create();
 
         this.net;
+        this.runningStatus = true;
         
     }
 
@@ -33,6 +31,17 @@ export default class JoeyLib{
         });
       }
 
+      // Reads an image from the webcam and associates it with a specific class
+      // index.
+      addExample = classId => {
+        // Get the intermediate activation of MobileNet 'conv_preds' and pass that
+        // to the KNN classifier.
+        const activation = this.net.infer(this.webcamElement, 'conv_preds');
+
+        // Pass the intermediate activation to the classifier.
+        this.classifier.addExample(activation, classId);
+      };
+
       async init() {
         console.log('Loading mobilenet..');
   
@@ -41,28 +50,13 @@ export default class JoeyLib{
         console.log('Sucessfully loaded model');
   
         await this.setupWebcam();
-  
-        // Reads an image from the webcam and associates it with a specific class
-        // index.
-        const addExample = classId => {
-          // Get the intermediate activation of MobileNet 'conv_preds' and pass that
-          // to the KNN classifier.
-          const activation = this.net.infer(this.webcamElement, 'conv_preds');
-  
-          // Pass the intermediate activation to the classifier.
-          this.classifier.addExample(activation, classId);
-        };
-  
+
         // When clicking a button, add an example for that class.
         for (var x = 0; x<20; x++){
-            addExample(0);
+            this.addExample(0);
         }
 
-        document.getElementById(this.btnElement1).addEventListener('click', () => addExample(1));
-        document.getElementById(this.btnElement2).addEventListener('click', () => addExample(2));
-        
-
-        while (true) {
+        while (this.runningStatus) {
           if (this.classifier.getNumClasses() > 0) {
             // Get the activation from mobilenet from the webcam.
             const activation = this.net.infer(this.webcamElement, 'conv_preds');
@@ -79,24 +73,21 @@ export default class JoeyLib{
 
           if(classes[this.result.classIndex] === 'up'){
             window.scrollBy(0, -10);
-            console.log('uping')
+
           }
 
           if(classes[this.result.classIndex] === 'down'){
             window.scrollBy(0, 10);
-            console.log('downing')
+
           }
 
           await tf.nextFrame();
         }
       }
 
-    test(){
-        console.log(this.output)
-    }
 
-    getResult(){
-        return this.result
+    destroy(){
+      this.runningStatus = false
     }
 
       

@@ -5,9 +5,11 @@
       <div id="console" style="width: 20vw"></div>
         <video autoplay playsinline muted id="webcam" width="200" height="150"></video>
         <div>
-          <button id="class-a">Add A Set</button>
-          <button id="class-b">Add B Set</button>
-          <button @click="outsideTest">From outside</button>
+          <button @click="instance.addExample(0)">Default</button>
+          <button @click="instance.addExample(1)">Up actions</button>
+          <button @click="instance.addExample(2)">Down actions</button>
+
+          <button @click="instance.destroy()">Terminate</button>
         </div>
     </div>
     
@@ -31,14 +33,11 @@ export default {
 
 
   mounted(){
-    this.instance = new JoeyLib('webcam','class-a','class-b')
+    this.instance = new JoeyLib('webcam')
     this.instance.init()
   },
 
   methods:{
-    outsideTest(){
-      this.instance.addExample(2)
-    }
   }
 
   
