@@ -1,3 +1,7 @@
+import * as mobilenet from '@tensorflow-models/mobilenet';
+import * as knnClassifier from '@tensorflow-models/knn-classifier';
+import * as tf from '@tensorflow/tfjs';
+
 export default class JoeyLib{
     constructor(webcamElement, btnElement1, btnElement2){
         this.btnElement1 = btnElement1;
@@ -53,10 +57,10 @@ export default class JoeyLib{
         for (var x = 0; x<20; x++){
             addExample(0);
         }
+
         document.getElementById(this.btnElement1).addEventListener('click', () => addExample(1));
         document.getElementById(this.btnElement2).addEventListener('click', () => addExample(2));
         
-        var elmnt = document.getElementById("longsheet");
 
         while (true) {
           if (this.classifier.getNumClasses() > 0) {
@@ -67,19 +71,22 @@ export default class JoeyLib{
   
             var classes = ['default','up', 'down'];
             document.getElementById('console').innerText = `
-              prediction: ${classes[this.result.classIndex]}\n
-              probability: ${this.result.confidences[this.result.classIndex]}
+              Console:\n
+              Prediction: ${classes[this.result.classIndex]}\n
+              Probability: ${this.result.confidences[this.result.classIndex]}
             `;
           }
 
           if(classes[this.result.classIndex] === 'up'){
-            elmnt.scrollTop += 1;
+            window.scrollBy(0, -10);
             console.log('uping')
           }
+
           if(classes[this.result.classIndex] === 'down'){
-            elmnt.scrollTop -= 1;
+            window.scrollBy(0, 10);
             console.log('downing')
           }
+
           await tf.nextFrame();
         }
       }
@@ -92,6 +99,7 @@ export default class JoeyLib{
         return this.result
     }
 
+      
     //  createTag(){
     //     var script = document.createElement('script');
     //     script.type = 'text/javascript';
