@@ -3,13 +3,13 @@ import * as knnClassifier from '@tensorflow-models/knn-classifier';
 import * as tf from '@tensorflow/tfjs';
 
 export default class JoeyLib{
-    constructor(webcamElement){        
+    constructor(webcamElement, fnForUp, fnForDown){        
         this.webcamElement = document.getElementById(webcamElement);
         this.classifier = knnClassifier.create();
-
         this.net;
         this.runningStatus = true;
-        
+        this.fnForUp = fnForUp;
+        this.fnForDown = fnForDown;
     }
 
     async setupWebcam() {
@@ -72,13 +72,11 @@ export default class JoeyLib{
           }
 
           if(classes[this.result.classIndex] === 'up'){
-            window.scrollBy(0, -10);
-
+            this.fnForUp()
           }
 
           if(classes[this.result.classIndex] === 'down'){
-            window.scrollBy(0, 10);
-
+            this.fnForDown()
           }
 
           await tf.nextFrame();
@@ -91,11 +89,4 @@ export default class JoeyLib{
     }
 
       
-    //  createTag(){
-    //     var script = document.createElement('script');
-    //     script.type = 'text/javascript';
-    //     script.src = 'https://unpkg.com/@tensorflow/tfjs';
-    //     console.log(script)
-    //     document.body.appendChild(script);
-    // }
 }

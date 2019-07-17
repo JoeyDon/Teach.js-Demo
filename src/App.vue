@@ -5,9 +5,9 @@
       <div id="console" style="width: 20vw"></div>
         <video autoplay playsinline muted id="webcam" width="200" height="150"></video>
         <div>
-          <button @click="instance.addExample(0)">Default</button>
-          <button @click="instance.addExample(1)">Up actions</button>
-          <button @click="instance.addExample(2)">Down actions</button>
+          <button @click="instance.addExample(0)">Teach Default</button>
+          <button @click="instance.addExample(1)">Teach Up Actions</button>
+          <button @click="instance.addExample(2)">Teach Down Actions</button>
 
           <button @click="instance.destroy()">Terminate</button>
         </div>
@@ -28,16 +28,24 @@ import JoeyLib from "./lib/JoeyLib"
 
 export default {
   data: () => ({
-    instance: null
+    instance: null,
+    scrollSpeed: 15
   }),
 
 
   mounted(){
-    this.instance = new JoeyLib('webcam')
+    // Create Instance
+    this.instance = new JoeyLib('webcam',this.fnGoUp, this.fnGoDown)
     this.instance.init()
   },
 
   methods:{
+    fnGoUp(){
+      window.scrollBy(0, -this.scrollSpeed);
+    },
+    fnGoDown(){
+      window.scrollBy(0, this.scrollSpeed);
+    }
   }
 
   
