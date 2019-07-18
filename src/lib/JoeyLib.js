@@ -2,6 +2,7 @@ import * as mobilenet from '@tensorflow-models/mobilenet';
 import * as knnClassifier from '@tensorflow-models/knn-classifier';
 import * as tf from '@tensorflow/tfjs';
 
+
 export default class JoeyLib{
     constructor(webcamElement, fnForUp, fnForDown){        
         this.webcamElement = document.getElementById(webcamElement);
@@ -42,6 +43,7 @@ export default class JoeyLib{
         this.classifier.addExample(activation, classId);
       };
 
+
       async init() {
         console.log('Loading mobilenet..');
   
@@ -52,9 +54,7 @@ export default class JoeyLib{
         await this.setupWebcam();
 
         // When clicking a button, add an example for that class.
-        for (var x = 0; x<20; x++){
-            this.addExample(0);
-        }
+        this.addExample(0);
 
         while (this.runningStatus) {
           if (this.classifier.getNumClasses() > 0) {
@@ -87,6 +87,4 @@ export default class JoeyLib{
     destroy(){
       this.runningStatus = false
     }
-
-      
 }
