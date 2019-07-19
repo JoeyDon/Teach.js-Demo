@@ -20,6 +20,8 @@ export default class JoeyLib{
               navigatorAny.webkitGetUserMedia || navigatorAny.mozGetUserMedia ||
               navigatorAny.msGetUserMedia;
           if (navigator.getUserMedia) {
+
+            // Permission and open the channel
             navigator.getUserMedia({video: true},
               stream => {
                 this.webcamElement.srcObject = stream;
@@ -52,8 +54,6 @@ export default class JoeyLib{
         console.log('Sucessfully loaded model');
   
         await this.setupWebcam();
-
-        // When clicking a button, add an example for that class.
         this.addExample(0);
 
         while (this.runningStatus) {
@@ -79,6 +79,7 @@ export default class JoeyLib{
             this.fnForDown()
           }
 
+          //Returns a promise that resolve when a requestAnimationFrame has completed.
           await tf.nextFrame();
         }
       }
