@@ -1,4 +1,4 @@
-# tensorflow
+# Teach.js Demo
 
 ## Project setup
 ```
