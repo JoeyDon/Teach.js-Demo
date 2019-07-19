@@ -3,7 +3,7 @@ import * as knnClassifier from '@tensorflow-models/knn-classifier';
 import * as tf from '@tensorflow/tfjs';
 
 
-export default class JoeyLib{
+export default class Teach{
     constructor(webcamElement, fnForUp, fnForDown){        
         this.webcamElement = document.getElementById(webcamElement);
         this.classifier = knnClassifier.create();

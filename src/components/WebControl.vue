@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import JoeyLib from "../lib/JoeyLib"
+import Teach from "../lib/Teach"
 export default {
   data: () => ({
     instance: null,
@@ -75,7 +75,7 @@ export default {
   }),
   mounted(){
     // Create Instance
-    this.instance = new JoeyLib('webcam',this.fnGoUp, this.fnGoDown)
+    this.instance = new Teach('webcam',this.fnGoUp, this.fnGoDown)
     this.instance.init()
 
     //this.instance.destroy()

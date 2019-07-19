@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <WebControl /> -->
     <WebControl />
   </div>
 </template>
